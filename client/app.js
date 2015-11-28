@@ -8,7 +8,8 @@ const PanelGroup  = require('react-bootstrap/lib/PanelGroup');
 const Alert       = require('react-bootstrap/lib/Alert');
 
 //components
-const PredefinedColors = require('./components/predefinedColors');
+const PredefinedColors  = require('./components/predefinedColors');
+const EnabledToggle     = require('./components/enabledToggle');
 
 //data
 const Config = require('./data/config');
@@ -82,6 +83,11 @@ class App extends React.Component {
     });
   }
 
+  handleToggleEnabled(){
+    let newEnabledStatus = !this.state.config.isEnabled;
+    this.configChange({ isEnabled: newEnabledStatus });
+  }
+
   renderAlert(){
     if(this.state.showAlert){
       if(this.state.errorAlert){
@@ -123,6 +129,10 @@ class App extends React.Component {
           </div>
         </PageHeader>
         { this.renderAlert() }
+        <EnabledToggle
+          config={ this.state.config }
+          onToggleEnabled={ this.handleToggleEnabled.bind(this) }
+        />
         <PanelGroup activeKey={this.state.activePanelKey} onSelect={this.handlePanelChange.bind(this)} accordion>
          <Panel header="Predefined Colors" eventKey="1">
            <PredefinedColors onColorChanged={ this.configChange.bind(this) } config={ this.state.config } />

@@ -28,7 +28,7 @@ class ColorSwatch extends React.Component {
     return (
         <div className="col-xs-2">
            <div className="color-swatch" style={style}></div>
-           <Input name="colorSwatch" type="radio" label="Radio" onClick={ this.onColorSelected.bind(this) } value={this.props.color} />
+           <Input name="colorSwatch" type="radio" label={ this.props.color } onClick={ this.onColorSelected.bind(this) } value={this.props.color} />
         </div>
     );
   }
