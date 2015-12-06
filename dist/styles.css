@@ -1,0 +1,21 @@
+.current-color-name {
+  padding-top: 20px;
+}
+.current-color-name-label {
+  font-weight: bold;
+}
+.color-swatch-container {
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  border-radius: 10px;
+}
+.color-swatch-container:hover {
+  background-color: #daf1f8;
+}
+.color-swatch-container.active {
+  background-color: #daf1f8;
+}
+.alert {
+  margin-top: 20px;
+}

@@ -1,5 +1,6 @@
 const React = require('react');
 const Input = require('react-bootstrap/lib/Input');
+const classNames = require('classnames');
 
 class ColorSwatch extends React.Component {
   constructor(props){
@@ -7,11 +8,7 @@ class ColorSwatch extends React.Component {
   }
 
   onColorSelected(evt){
-    let color = evt.target.value;
-
-    if(color && this.props.onColorChanged){
-      this.props.onColorChanged({ currentColor: color });
-    }
+    this.props.onColorChanged({ currentColor: this.props.color });
   }
 
   render(){
@@ -20,15 +17,23 @@ class ColorSwatch extends React.Component {
     	'height': '80px',
     	'MozBorderRadius': '40px',
     	'WebkitBorderRadius': '40px',
-    	'borderRadius': '40px'
+    	'borderRadius': '40px',
+      'margin': '0px auto'
     };
 
     style.backgroundColor = this.props.color ? '#' + this.props.color : 'black';
 
+    let containerClasses = classNames({
+      'col-xs-12': true,
+      'col-md-2': true,
+      'color-swatch-container': true,
+      'active': this.props.active
+    });
+
     return (
-        <div className="col-xs-2">
+        <div className={ containerClasses } onClick={ this.onColorSelected.bind(this) }>
            <div className="color-swatch" style={style}></div>
-           <Input name="colorSwatch" type="radio" label={ this.props.color } onClick={ this.onColorSelected.bind(this) } value={this.props.color} />
+           <span>#{ this.props.color }</span>
         </div>
     );
   }

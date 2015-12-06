@@ -2,7 +2,7 @@ const $ = require('jquery');
 
 class Config {
   static get(){
-    var $def = $.Deferred();
+    let $def = $.Deferred();
 
     $.ajax({
       type: 'GET',
@@ -17,7 +17,7 @@ class Config {
   }
 
   static update(config){
-    var $def = $.Deferred();
+    let $def = $.Deferred();
 
     $.ajax({
       type: 'POST',

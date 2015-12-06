@@ -44,7 +44,7 @@ class App extends React.Component {
 
   configChange(value){
     if(value){
-      var curConfig = this.state.config;
+      let curConfig = this.state.config;
 
       this.setState({ config: _.extend(curConfig, value) }, () => {
         Config.update(this.state.config).done((success) => {
@@ -76,7 +76,7 @@ class App extends React.Component {
     });
   }
 
-  handleErrorAlertDismiss(){
+  handleSuccessAlertDismiss(){
     this.setState({
       showAlert: false,
       successAlert: false
@@ -99,7 +99,7 @@ class App extends React.Component {
       }
       if(this.state.successAlert){
         return (
-          <Alert bsStyle="success" onDismiss={ this.handleErrorAlertDismiss.bind(this) }>
+          <Alert bsStyle="success" onDismiss={ this.handleSuccessAlertDismiss.bind(this) }>
            <h4>Config updated.</h4>
           </Alert>
         );
@@ -111,8 +111,8 @@ class App extends React.Component {
   }
 
   render(){
-    var headerStyles = {
-      'color': Helper.idealTextColor(this.state.config.currentColor),
+    let headerStyles = {
+      'color': Helper.getIdealTextColor(this.state.config.currentColor),
       'background': '#' + this.state.config.currentColor,
       'padding': '20px',
       'marginLeft': '-20px',
@@ -122,17 +122,23 @@ class App extends React.Component {
 
     return (
       <div className="app container-fluid">
-        <PageHeader style={headerStyles}>
-          Color Manager
-          <div className="pull-right">
-            <span>Current Color: { this.state.config.currentColor }</span>
+        <div className="row" style={ headerStyles }>
+          <div className="col-xs-12 col-sm-6 col-md-10">
+            <h1> Color Manager </h1>
           </div>
-        </PageHeader>
+          <div className="col-xs-12 col-md-2 current-color-name">
+            <span className="current-color-name-label"> Current Color: </span>
+            <span>{ '#' + this.state.config.currentColor } </span>
+          </div>
+        </div>
+
         { this.renderAlert() }
+
         <EnabledToggle
           config={ this.state.config }
           onToggleEnabled={ this.handleToggleEnabled.bind(this) }
         />
+
         <PanelGroup activeKey={this.state.activePanelKey} onSelect={this.handlePanelChange.bind(this)} accordion>
          <Panel header="Predefined Colors" eventKey="1">
            <PredefinedColors onColorChanged={ this.configChange.bind(this) } config={ this.state.config } />

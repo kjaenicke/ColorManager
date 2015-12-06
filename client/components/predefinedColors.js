@@ -8,7 +8,9 @@ class PredefinedColors extends React.Component {
 
   render(){
     let colors = this.props.config.predefinedColors.map((c, index) => {
-        return (<ColorSwatch onColorChanged={this.props.onColorChanged} key={index} color={c} />);
+        let active = c === this.props.config.currentColor;
+
+        return (<ColorSwatch active={active} onColorChanged={this.props.onColorChanged} key={index} color={c} />);
     });
 
     return (
