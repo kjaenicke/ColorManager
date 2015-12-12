@@ -16,6 +16,15 @@
 .color-swatch-container.active {
   background-color: #daf1f8;
 }
+.save-custom {
+  margin-top: 15px;
+}
+.delete-predefined-colors {
+  margin-top: 15px;
+}
+.edit-predefined-colors {
+  margin-bottom: 20px;
+}
 .alert {
   margin-top: 20px;
 }

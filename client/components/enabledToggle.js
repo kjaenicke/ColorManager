@@ -8,7 +8,7 @@ class EnabledToggle extends React.Component {
   }
 
   onCheckClicked(evt){
-    this.props.onToggleEnabled && this.props.onToggleEnabled();
+    this.props.onEnabledToggled && this.props.onEnabledToggled();
   }
 
   render(){

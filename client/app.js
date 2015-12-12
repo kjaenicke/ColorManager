@@ -1,15 +1,18 @@
+//libs
 const React     = require('react');
 const ReactDOM  = require('react-dom');
 const _         = require('underscore');
 
+//lib components
 const PageHeader  = require('react-bootstrap/lib/PageHeader');
 const Panel       = require('react-bootstrap/lib/Panel');
 const PanelGroup  = require('react-bootstrap/lib/PanelGroup');
 const Alert       = require('react-bootstrap/lib/Alert');
 
 //components
-const PredefinedColors  = require('./components/predefinedColors');
 const EnabledToggle     = require('./components/enabledToggle');
+const PredefinedColors  = require('./components/predefinedColors');
+const CustomColor       = require('./components/customColor');
 
 //data
 const Config = require('./data/config');
@@ -23,50 +26,43 @@ class App extends React.Component {
 
     this.state = {
       config: {
-        predefinedColors:[],
+        predefinedColors: [],
         customColor: [],
         isEnabled: false,
         currentColor: '6f5499'
-      },
-      activePanelKey: 1
+      }
     };
   }
 
   componentDidMount(){
-    Config.get().done(function(data){
+    Config.get().done((data) => {
       if(data){
-        let curConfig = this.state.config;
-
-        this.setState({ config: _.extend(curConfig, data) });
+        this.setState({ config: _.extend({}, this.state.config, data) });
       }
-    }.bind(this));
+    });
   }
 
   configChange(value){
     if(value){
-      let curConfig = this.state.config;
-
-      this.setState({ config: _.extend(curConfig, value) }, () => {
+      this.setState({ config: _.extend({}, this.state.config, value) }, () => {
         Config.update(this.state.config).done((success) => {
-          if(success){
-            this.setState({
-              showAlert: true,
-              successAlert: true
-            });
-          }
-          else {
-            this.setState({
-              showAlert: true,
-              errorAlert: true
-            });
-          }
+          this.setAlertState(success);
         });
       });
     }
   }
 
-  handlePanelChange(activePanelKey) {
-    this.setState({ activePanelKey });
+  setAlertState(isSuccess){
+    let alertState = { showAlert: true };
+
+    if(isSuccess){
+      alertState.successAlert = true;
+    }
+    else {
+      alertState.errorAlert = true;
+    }
+
+    this.setState(alertState);
   }
 
   handleErrorAlertDismiss(){
@@ -83,9 +79,34 @@ class App extends React.Component {
     });
   }
 
-  handleToggleEnabled(){
+  handleEnabledToggled(){
     let newEnabledStatus = !this.state.config.isEnabled;
     this.configChange({ isEnabled: newEnabledStatus });
+  }
+
+  handleSelectCustomColor(color, addAsPredefined){
+    let config = this.state.config;
+    let { predefinedColors: predefined } = config;
+
+    if(addAsPredefined){
+      if(predefined.indexOf(color) > - 1){
+        this.configChange({ currentColor: color });
+      }
+      else {
+        this.configChange({
+          predefinedColors: [color, ...predefined],
+          currentColor: color
+        });
+      }
+    }
+    else {
+      this.configChange({ currentColor: color });
+    }
+  }
+
+  handleRandomClick(){
+    const randColorString = (Math.random()*0xFFFFFF<<0).toString(16);
+    this.configChange({ currentColor: randColorString });
   }
 
   renderAlert(){
@@ -136,15 +157,28 @@ class App extends React.Component {
 
         <EnabledToggle
           config={ this.state.config }
-          onToggleEnabled={ this.handleToggleEnabled.bind(this) }
+          onEnabledToggled={ this.handleEnabledToggled.bind(this) }
         />
 
-        <PanelGroup activeKey={this.state.activePanelKey} onSelect={this.handlePanelChange.bind(this)} accordion>
-         <Panel header="Predefined Colors" eventKey="1">
-           <PredefinedColors onColorChanged={ this.configChange.bind(this) } config={ this.state.config } />
-         </Panel>
-         <Panel header="Custom Color" eventKey="2">Panel 2 content</Panel>
-         <Panel header="Random Color" eventKey="3">Panel 3 content</Panel>
+        <PanelGroup defaultActiveKey={1} accordion>
+          <Panel header="Predefined Colors" eventKey="1">
+            <PredefinedColors
+              onColorChanged={ this.configChange.bind(this) }
+              onPredefinedColorsChanged = { this.configChange.bind(this) }
+              config={ this.state.config }
+            />
+          </Panel>
+          <Panel header="Custom Color" eventKey="2">
+            <CustomColor
+              selectCustomColor={ this.handleSelectCustomColor.bind(this) }
+              config={ this.state.config }
+              />
+          </Panel>
+          <Panel header="Random Color" eventKey="3">
+            <button className="btn btn-primary btn-large btn-block" onClick={ this.handleRandomClick.bind(this) }>
+              Party Mode!
+            </button>
+          </Panel>
        </PanelGroup>
       </div>
     );
