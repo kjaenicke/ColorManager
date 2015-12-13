@@ -355,7 +355,7 @@ module.exports = (function (_React$Component) {
   _createClass(CustomColor, [{
     key: 'handleColorChange',
     value: function handleColorChange(color) {
-      this.setState({ color: color.hex });
+      this.setState({ color: String(color.hex).toUpperCase() });
     }
   }, {
     key: 'handleCheckClicked',

@@ -13,7 +13,7 @@ module.exports = class CustomColor extends React.Component {
   }
 
   handleColorChange(color){
-    this.setState({ color: color.hex });
+    this.setState({ color: String(color.hex).toUpperCase() });
   }
 
   handleCheckClicked(evt){
