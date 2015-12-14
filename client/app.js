@@ -105,7 +105,7 @@ class App extends React.Component {
   }
 
   handleRandomClick(){
-    const randColorString = (Math.random()*0xFFFFFF<<0).toString(16);
+    const randColorString = (Math.random()*0xFFFFFF<<0).toString(16).toUpperCase();
     this.configChange({ currentColor: randColorString });
   }
 

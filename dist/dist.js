@@ -133,7 +133,7 @@ var App = (function (_React$Component) {
   }, {
     key: 'handleRandomClick',
     value: function handleRandomClick() {
-      var randColorString = (Math.random() * 0xFFFFFF << 0).toString(16);
+      var randColorString = (Math.random() * 0xFFFFFF << 0).toString(16).toUpperCase();
       this.configChange({ currentColor: randColorString });
     }
   }, {
