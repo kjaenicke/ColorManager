@@ -1,42 +1,24 @@
-const React = require('react');
-
-const Input = require('react-bootstrap/lib/Input');
+import React from 'react';
+import Input from 'react-bootstrap/lib/Input';
 
 class EnabledToggle extends React.Component {
-  constructor(props){
-    super(props);
-  }
-
-  onCheckClicked(evt){
-    this.props.onEnabledToggled && this.props.onEnabledToggled();
-  }
-
   render(){
-    if(this.props.config.isEnabled){
-      return (
-        <div className="enabled-toggle">
-          <Input
-          name={ this.props.color }
+    return (
+      <div className="enabled-toggle">
+        <Input
           type="checkbox"
           label="On/Off"
-          onClick={ this.onCheckClicked.bind(this) }
-          checked />
-        </div>
-      );
-    }
-    else {
-      return (
-        <div className="enabled-toggle">
-          <Input
-          name={ this.props.color }
-          type="checkbox"
-          label="On/Off"
-          onClick={ this.onCheckClicked.bind(this) } />
-        </div>
-      );
-
-    }
+          onChange={ () => this.props.onEnabledToggled() }
+          checked={ this.props.isEnabled ? 'checked' : '' }
+        />
+      </div>
+    );
   }
 }
 
-module.exports = EnabledToggle;
+EnabledToggle.propTypes = {
+  isEnabled: React.PropTypes.bool,
+  onEnabledToggled: React.PropTypes.func.isRequired
+};
+
+export default EnabledToggle;

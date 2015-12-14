@@ -1,6 +1,6 @@
-const React = require('react');
-const ColorSwatch = require('./colorSwatch');
-const _ = require('underscore');
+import React from 'react';
+import ColorSwatch from './colorSwatch';
+import _ from 'underscore';
 
 class PredefinedColors extends React.Component {
   constructor(props){
@@ -123,4 +123,4 @@ class PredefinedColors extends React.Component {
   /*eslint-enable */
 }
 
-module.exports = PredefinedColors;
+export default PredefinedColors;
