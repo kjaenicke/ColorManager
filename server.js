@@ -16,10 +16,12 @@ app.use(bodyParser.json());
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-//Webpack
-var compiler = webpack(config)
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
-app.use(webpackHotMiddleware(compiler))
+if(process.env.NODE_ENV === 'dev'){
+  //webpack-dev-middleware && hot reloading
+  var compiler = webpack(config)
+  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
+  app.use(webpackHotMiddleware(compiler))
+}
 
 //Routes
 app.get('/', function (req, res) {

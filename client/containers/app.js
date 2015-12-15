@@ -9,7 +9,6 @@ import underscore from 'underscore';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Panel from 'react-bootstrap/lib/Panel';
 import PanelGroup from 'react-bootstrap/lib/PanelGroup';
-import Alert from 'react-bootstrap/lib/Alert';
 
 //components
 import EnabledToggle from '../components/enabledToggle';
@@ -25,28 +24,46 @@ import * as ConfigActions from '../actions'
 
 export default class AppContainer extends Component {
   handleEnabledToggled(){
-    let { config } = this.props;
-    config.isEnabled = !config.isEnabled;
-
-    this.props.saveConfig(config);
+    this.updateConfig('isEnabled', !this.props.config.isEnabled);
   }
 
   handleScheduleToggled(){
-    let { config } = this.props;
-    config.isUsingSchedule = !config.isUsingSchedule;
-
-    this.props.saveConfig(config);
+    this.updateConfig('isUsingSchedule', !this.props.config.isUsingSchedule);
   }
 
   handleRandomClick(){
     const randColorString = (Math.random()*0xFFFFFF<<0).toString(16).toUpperCase();
+    this.updateConfig('currentColor', randColorString);
+  }
+
+  handleColorChanged(color){
+    this.updateConfig('currentColor', color);
+  }
+
+  handlePredefinedColorsChange(predefinedColors){
+    this.updateConfig('predefinedColors', predefinedColors);
+  }
+
+  handleCustomColorChanged(color, saveAsPredefined){
     let { config } = this.props;
-    config.currentColor = randColorString;
+
+    config.currentColor = color;
+
+    if(saveAsPredefined){
+      config.predefinedColors = [color, ...config.predefinedColors];
+    }
 
     this.props.saveConfig(config);
   }
 
-  render(){    
+  updateConfig(property, newValue){
+    let { config } = this.props;
+    config[property] = newValue;
+
+    this.props.saveConfig(config);
+  }
+
+  render(){
     let headerStyles = {
       'color': Helper.getIdealTextColor(this.props.config.currentColor),
       'background': '#' + this.props.config.currentColor,
@@ -81,12 +98,15 @@ export default class AppContainer extends Component {
         <PanelGroup defaultActiveKey={1} accordion>
           <Panel header="Predefined Colors" eventKey="1">
             <PredefinedColors
-            config={ this.props.config }
+              onColorChanged={ this.handleColorChanged.bind(this) }
+              onPredefinedColorsChanged={ this.handlePredefinedColorsChange.bind(this) }
+              config={ this.props.config }
             />
           </Panel>
           <Panel header="Custom Color" eventKey="2">
             <CustomColor
               config={ this.props.config }
+              selectCustomColor={ this.handleCustomColorChanged.bind(this) }
             />
           </Panel>
           <Panel header="Random Color" eventKey="3">

@@ -9,6 +9,8 @@ import { apiMiddleware } from 'redux-api-middleware';
 import { getConfig } from './actions'
 import App from './containers/app'
 
+require("!style!css!less!./styles/main.less");
+
 const middleware = process.env.NODE_ENV === 'production' ?
   [ thunk, apiMiddleware ] :
   [ thunk, apiMiddleware, logger() ]

@@ -49,13 +49,12 @@ class PredefinedColors extends React.Component {
       this.setState({ colorsToRemove: colors });
     }
     else {
-      this.props.onColorChanged(colorObj);
+      this.props.onColorChanged(color);
     }
   }
 
-  /*eslint-disable */
   render(){
-    if(this.props.config.predefinedColors && this.props.config.predefinedColors.length > 0){
+    if(this.props.config.predefinedColors.length > 0){
       let colors = this.props.config.predefinedColors.map((c, index) => {
           let active = false;
 
@@ -120,7 +119,12 @@ class PredefinedColors extends React.Component {
       </div>
     );
   }
-  /*eslint-enable */
 }
+
+PredefinedColors.propTypes = {
+  config: React.PropTypes.object.isRequired,
+  onColorChanged: React.PropTypes.func.isRequired,
+  onPredefinedColorsChanged: React.PropTypes.func.isRequired
+};
 
 export default PredefinedColors;
