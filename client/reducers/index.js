@@ -3,18 +3,23 @@ import * as types from '../constants/actionTypes';
 import _ from 'underscore';
 
 const initialState = {
-    predefinedColors : [],
-    isEnabled : true,
-    currentColor : "FFFFFF"
+    config: {
+      predefinedColors : [],
+      isEnabled : true,
+      isUsingSchedule: false,
+      currentColor : "FFFFFF"
+    },
+    saving: false
 };
 
 function config(state = initialState, action){
   switch(action.type){
     case types.RECEIVE_CONFIG:
-    return action.config;
+    return _.extend({}, state, action.config);
 
-    case types.TOGGLE_ISENABLED:
-    return _.extend({}, state, { isEnabled: !state.isEnabled });
+
+    case types.CONFIG_SAVED:
+    return _.extend({}, state, { saving: false, config: action.config });
 
     default:
       return state;

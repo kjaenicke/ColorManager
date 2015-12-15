@@ -55,7 +55,7 @@ class PredefinedColors extends React.Component {
 
   /*eslint-disable */
   render(){
-    if(this.props.config.predefinedColors.length > 0){
+    if(this.props.config.predefinedColors && this.props.config.predefinedColors.length > 0){
       let colors = this.props.config.predefinedColors.map((c, index) => {
           let active = false;
 

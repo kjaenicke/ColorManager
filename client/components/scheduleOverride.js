@@ -1,18 +1,18 @@
 import React from 'react';
 import Input from 'react-bootstrap/lib/Input';
 
-class EnabledToggle extends React.Component {
+class ScheduleOverride extends React.Component {
   handleChangeClicked(){
-    this.props.onEnabledToggled();
+    this.props.onToggled();
   }
 
   render(){
-    const { isEnabled } = this.props.config;
-    const label = 'On/Off';
+    const { isUsingSchedule } = this.props.config;
+    const label = 'Override Schedule?';
 
-    if(isEnabled){
+    if(isUsingSchedule){
       return (
-        <div className="enabled-toggle">
+        <div className="schedule-toggle">
           <Input
             type="checkbox"
             label={ label }
@@ -23,7 +23,7 @@ class EnabledToggle extends React.Component {
       );
     }
     return (
-      <div className="enabled-toggle">
+      <div className="schedule-toggle">
         <Input
           type="checkbox"
           label={ label }
@@ -34,9 +34,9 @@ class EnabledToggle extends React.Component {
   }
 }
 
-EnabledToggle.propTypes = {
+ScheduleOverride.propTypes = {
   config: React.PropTypes.object.isRequired,
-  onEnabledToggled: React.PropTypes.func.isRequired
+  onToggled: React.PropTypes.func.isRequired
 };
 
-export default EnabledToggle;
+export default ScheduleOverride;

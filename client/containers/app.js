@@ -13,6 +13,7 @@ import Alert from 'react-bootstrap/lib/Alert';
 
 //components
 import EnabledToggle from '../components/enabledToggle';
+import ScheduleOverride from '../components/scheduleOverride';
 import PredefinedColors from '../components/predefinedColors';
 import CustomColor from '../components/customColor';
 
@@ -23,7 +24,29 @@ import Helper from '../util/helper';
 import * as ConfigActions from '../actions'
 
 export default class AppContainer extends Component {
-  render(){
+  handleEnabledToggled(){
+    let { config } = this.props;
+    config.isEnabled = !config.isEnabled;
+
+    this.props.saveConfig(config);
+  }
+
+  handleScheduleToggled(){
+    let { config } = this.props;
+    config.isUsingSchedule = !config.isUsingSchedule;
+
+    this.props.saveConfig(config);
+  }
+
+  handleRandomClick(){
+    const randColorString = (Math.random()*0xFFFFFF<<0).toString(16).toUpperCase();
+    let { config } = this.props;
+    config.currentColor = randColorString;
+
+    this.props.saveConfig(config);
+  }
+
+  render(){    
     let headerStyles = {
       'color': Helper.getIdealTextColor(this.props.config.currentColor),
       'background': '#' + this.props.config.currentColor,
@@ -46,14 +69,19 @@ export default class AppContainer extends Component {
         </div>
 
         <EnabledToggle
-          isEnabled={ this.props.config.isEnabled }
-          onEnabledToggled={ this.props.toggleIsEnabled }
+          config={ this.props.config }
+          onEnabledToggled={ this.handleEnabledToggled.bind(this) }
+        />
+
+        <ScheduleOverride
+          config={ this.props.config }
+          onToggled={ this.handleScheduleToggled.bind(this) }
         />
 
         <PanelGroup defaultActiveKey={1} accordion>
           <Panel header="Predefined Colors" eventKey="1">
             <PredefinedColors
-              config={ this.props.config }
+            config={ this.props.config }
             />
           </Panel>
           <Panel header="Custom Color" eventKey="2">
@@ -62,7 +90,7 @@ export default class AppContainer extends Component {
             />
           </Panel>
           <Panel header="Random Color" eventKey="3">
-            <button className="btn btn-primary btn-large btn-block" /*onClick={ this.handleRandomClick.bind(this)  }*/>
+            <button className="btn btn-primary btn-large btn-block" onClick={ this.handleRandomClick.bind(this)  }>
               Party Mode!
             </button>
           </Panel>
@@ -74,7 +102,8 @@ export default class AppContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    config : state.config
+    config : state.config,
+    saving : state.saving
   };
 }
 
@@ -82,4 +111,4 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ConfigActions, dispatch);
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(AppContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)

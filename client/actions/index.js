@@ -10,12 +10,44 @@ function receiveConfig(config){
 
 export function getConfig(){
   return dispatch => {
-    dispatch(receiveConfig(config.getConfig()));
+    config.getConfig()
+    .then(c => {
+      dispatch(receiveConfig(c));
+    })
+    .catch(err => {
+      throw new Error(err);
+    })
   };
 }
 
 export function toggleIsEnabled(){
   return {
     type: types.TOGGLE_ISENABLED
+  };
+}
+
+export function saveConfig(configToSave){
+  return dispatch => {
+    config.saveConfig(configToSave)
+    .then(() => {
+      dispatch(configSaveSuccessful(configToSave));
+    })
+    .catch((err) => {
+      dispatch(configSaveFailed(err));
+    });
+  };
+}
+
+export function configSaveSuccessful(config){
+  return {
+    type: types.CONFIG_SAVED,
+    config
+  };
+}
+
+export function configSaveFailed(err){
+  return {
+    type: types.CONFIG_SAVE_FAILED,
+    err
   };
 }
