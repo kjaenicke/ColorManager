@@ -1,6 +1,6 @@
-const React = require('react');
-const ColorSwatch = require('./colorSwatch');
-const _ = require('underscore');
+import React from 'react';
+import ColorSwatch from './colorSwatch';
+import _ from 'underscore';
 
 class PredefinedColors extends React.Component {
   constructor(props){
@@ -49,11 +49,10 @@ class PredefinedColors extends React.Component {
       this.setState({ colorsToRemove: colors });
     }
     else {
-      this.props.onColorChanged(colorObj);
+      this.props.onColorChanged(color);
     }
   }
 
-  /*eslint-disable */
   render(){
     if(this.props.config.predefinedColors.length > 0){
       let colors = this.props.config.predefinedColors.map((c, index) => {
@@ -120,7 +119,12 @@ class PredefinedColors extends React.Component {
       </div>
     );
   }
-  /*eslint-enable */
 }
 
-module.exports = PredefinedColors;
+PredefinedColors.propTypes = {
+  config: React.PropTypes.object.isRequired,
+  onColorChanged: React.PropTypes.func.isRequired,
+  onPredefinedColorsChanged: React.PropTypes.func.isRequired
+};
+
+export default PredefinedColors;

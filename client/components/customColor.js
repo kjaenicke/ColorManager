@@ -1,8 +1,8 @@
-const React = require('react');
-const ColorPicker = require('react-color');
-const Input = require('react-bootstrap/lib/Input');
+import React from 'react';
+import ColorPicker from 'react-color';
+import Input from 'react-bootstrap/lib/Input';
 
-module.exports = class CustomColor extends React.Component {
+class CustomColor extends React.Component {
   constructor(props){
     super(props);
 
@@ -54,3 +54,9 @@ module.exports = class CustomColor extends React.Component {
      );
   }
 }
+
+CustomColor.propTypes = {
+  selectCustomColor: React.PropTypes.func.isRequired
+};
+
+export default CustomColor;

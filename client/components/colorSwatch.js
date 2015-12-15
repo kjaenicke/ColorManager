@@ -1,6 +1,6 @@
-const React = require('react');
-const Input = require('react-bootstrap/lib/Input');
-const classNames = require('classnames');
+import React from 'react';
+import Input from 'react-bootstrap/lib/Input';
+import classNames from 'classnames';
 
 class ColorSwatch extends React.Component {
   constructor(props){
@@ -39,4 +39,10 @@ class ColorSwatch extends React.Component {
   }
 }
 
-module.exports = ColorSwatch;
+ColorSwatch.propTypes = {
+  active: React.PropTypes.bool,
+  color: React.PropTypes.string.isRequired,
+  onColorSelected: React.PropTypes.func.isRequired
+};
+
+export default ColorSwatch;
