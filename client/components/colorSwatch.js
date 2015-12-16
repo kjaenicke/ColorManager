@@ -42,7 +42,7 @@ class ColorSwatch extends React.Component {
 ColorSwatch.propTypes = {
   active: React.PropTypes.bool,
   color: React.PropTypes.string.isRequired,
-  onColorSelected: React.PropTypes.func.isRequired
+  onColorChanged: React.PropTypes.func.isRequired
 };
 
 export default ColorSwatch;

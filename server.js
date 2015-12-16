@@ -7,7 +7,7 @@ var fs = require('fs');
 var webpack = require('webpack')
 var webpackDevMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('./webpack.config')
+var config = require('./dev.webpack.config')
 
 //Express setup
 var app = express();

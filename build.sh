@@ -1,1 +1,1 @@
-webpack --config=webpack.config.js
+webpack --config=prod.webpack.config.js
