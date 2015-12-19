@@ -3,10 +3,15 @@ import * as types from '../constants/actionTypes';
 import _ from 'underscore';
 
 const initialState = {
-  predefinedColors : [],
-  isEnabled : true,
+  predefinedColors: [],
+  isEnabled: true,
   isUsingSchedule: false,
-  currentColor : "FFFFFF"
+  currentColor: "FFFFFF"
+};
+
+const initialAlertState = {
+  showSuccessAlert: false,
+  showFailureAlert: false
 };
 
 function config(state = initialState, action){
@@ -22,6 +27,26 @@ function config(state = initialState, action){
   }
 }
 
+function alertStatus(state = initialAlertState, action){
+  switch(action.type){
+    case types.INIT_CONFIG_SAVE:
+    return _.extend({}, state, { showSuccessAlert: false, showFailureAlert: false });
+
+    case types.CONFIG_SAVED:
+    return _.extend({}, state, { showSuccessAlert: true });
+
+    case types.CONFIG_SAVE_FAILED:
+    return _.extend({}, state, { showFailureAlert: true });
+
+    case types.DISMISS_ALERTS:
+    return _.extend({}, state, { showSuccessAlert: false, showFailureAlert: false });
+
+    default:
+      return state;
+    }
+}
+
 export default combineReducers({
-  config
+  config,
+  alertStatus
 })

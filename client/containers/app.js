@@ -11,6 +11,7 @@ import Panel from 'react-bootstrap/lib/Panel';
 import PanelGroup from 'react-bootstrap/lib/PanelGroup';
 
 //components
+import AlertSection from '../components/alertSection';
 import EnabledToggle from '../components/enabledToggle';
 import ScheduleOverride from '../components/scheduleOverride';
 import PredefinedColors from '../components/predefinedColors';
@@ -85,6 +86,12 @@ export default class AppContainer extends Component {
           </div>
         </div>
 
+        <AlertSection
+          showSuccess={ this.props.alertStatus.showSuccessAlert }
+          showFailure={ this.props.alertStatus.showFailureAlert }
+          onDismiss={ this.props.dismissAlerts }
+        />
+
         <EnabledToggle
           config={ this.props.config }
           onEnabledToggled={ this.handleEnabledToggled.bind(this) }
@@ -123,7 +130,7 @@ export default class AppContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     config : state.config,
-    saving : state.saving
+    alertStatus : state.alertStatus
   };
 }
 

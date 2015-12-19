@@ -51,3 +51,7 @@ export function configSaveFailed(err){
     err
   };
 }
+
+export function dismissAlerts(){
+  return { type: types.DISMISS_ALERTS };
+}

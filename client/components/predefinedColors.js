@@ -19,7 +19,8 @@ class PredefinedColors extends React.Component {
   handleDeleteButtonClick(){
     let predefinedColors = this.props.config.predefinedColors;
 
-    this.props.onPredefinedColorsChanged({ predefinedColors: _.difference(predefinedColors, this.state.colorsToRemove ) });
+    this.props.onPredefinedColorsChanged(_.difference(predefinedColors, this.state.colorsToRemove ));
+
     this.setState({
       editing: false,
       colorsToRemove: []
@@ -88,14 +89,14 @@ class PredefinedColors extends React.Component {
       ) : (<span/>);
 
       let confirmDelete = this.state.editing ? (
-        <div className="row-fluid">
+        <div className="row">
           <div className="col-xs-6">
-          <button className="btn btn-default delete-predefined-colors pull-left" onClick={ this.handleCancelButtonClick.bind(this) }>
+          <button className="btn btn-default cancel-predefined-colors pull-left" onClick={ this.handleCancelButtonClick.bind(this) }>
             Cancel
           </button>
         </div>
         <div className="col-xs-6">
-          <button className="btn btn-danger pull-right" onClick={ this.handleDeleteButtonClick.bind(this) }>
+          <button className="btn btn-danger delete-predefined-colors pull-right" onClick={ this.handleDeleteButtonClick.bind(this) }>
             Delete
           </button>
         </div>
@@ -103,18 +104,20 @@ class PredefinedColors extends React.Component {
       ) : (<span />);
 
       return (
-        <div className="predefined-colors row-fluid">
-          <div className="row-fluid">
+        <div>
+          <div className="predefined-colors row">
+            { colors }
+          </div>
+          <div className="row">
             { editButton }
           </div>
-          { colors }
           { confirmDelete }
         </div>
       );
     }
 
     return (
-      <div className="predefined-colors row-fluid">
+      <div className="predefined-colors row">
         <h3>No colors saved.</h3>
       </div>
     );

@@ -13,14 +13,20 @@ var config = require('./dev.webpack.config')
 var app = express();
 app.use(express.static('dist'));
 app.use(bodyParser.json());
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 if(process.env.NODE_ENV === 'dev'){
+  console.log('Running in DEV mode !!!');
   //webpack-dev-middleware && hot reloading
   var compiler = webpack(config)
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }))
   app.use(webpackHotMiddleware(compiler))
+
+  //Routes
+  app.get('/', function (req, res) {
+    res.render('dev');
+  });
 }
 
 //Routes
