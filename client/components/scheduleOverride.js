@@ -10,7 +10,7 @@ class ScheduleOverride extends React.Component {
     const { isUsingSchedule } = this.props.config;
     const label = 'Override Schedule?';
 
-    if(isUsingSchedule){
+    if(!isUsingSchedule){
       return (
         <div className="schedule-toggle">
           <Input
