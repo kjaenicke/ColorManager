@@ -5,8 +5,8 @@ import _ from 'underscore';
 const initialState = {
   predefinedColors: [],
   isEnabled: true,
-  isUsingSchedule: false,
-  currentColor: "FFFFFF"
+  isUsingSchedule: true,
+  currentColor: "000000"
 };
 
 const initialAlertState = {

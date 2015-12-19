@@ -35,15 +35,29 @@ app.get('/', function (req, res) {
 });
 
 app.get('/config', function(req, res){
+  var config;
   res.setHeader('Content-Type', 'application/json');
 
   fs.readFile('./config.json', 'utf8', function(err, data){
     if(err){
-      res.send(500);
+      config = JSON.stringify({
+          predefinedColors: [],
+          isEnabled: true,
+          isUsingSchedule: true,
+          currentColor: "000000"
+      });
+
+      res.status(200).send(JSON.stringify(config, null, 3));
+      return;
     }
 
-    var config = JSON.parse(data);
-    res.status(200).send(JSON.stringify(config, null, 3));
+    try {
+      config = JSON.parse(data);
+      res.status(200).send(JSON.stringify(config, null, 3));
+    }
+    catch(e){
+      res.status(500).send('Error: Unable to fetch config. ' + e);
+    }
   });
 
 });
